@@ -1,38 +1,44 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import useSWR from "swr";
 import { Table, Button, Modal, Form, Input, Upload, Tag } from "antd";
 import { toast } from "react-toastify";
 import { BookmarkPlus, Pen, Tags, Trash, SearchIcon, UploadIcon } from "lucide-react";
-import { Brand } from "@/types/entities/brand-entity";
+import { Branch } from "@/types/entities/brand-entity";
 import { CreateBrand, DeleteBrand, EditBrand, GetAllBrand } from "@/services/brand-service";
 import envConfig from "@/configs/config";
 import useDebounce from "@/hooks/useDebounce";
 
 const ManageBrand: React.FC = () => {
-    const { data: brands , mutate } = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + "/brand", GetAllBrand, { fallbackData: [] });
-    const [form] = Form.useForm();
+    const { data: brands , mutate } = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + "/branch", GetAllBrand, { fallbackData: [] });
+    //const [form] = Form.useForm();
+    //console.log('brands list: ', brands);
+    const [newBranchName, setNewBranchName] = useState("");
 
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
-    const [editingBrand, setEditingBrand] = useState<Brand | null>(null);
+    const [editingBrand, setEditingBrand] = useState<Branch | null>(null);
 
     const [searchTerm, setSearchTerm] = useState('');
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-    const filteredBrands = (brands as any).data?.filter((brand: { BrandName: string; }) =>
-        brand.BrandName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+    const filteredBrands = (brands as any).filter((brand: { name: string; }) =>
+        brand.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
     );
+
+    //console.log('filteredBrands: ', filteredBrands);
 
     const handleAddBrand = async () => {
         try {
-            const values = await form.validateFields();
-            await CreateBrand(values);
+            //const values = await form.validateFields();
+            //console.log('values: ', values);
+            await CreateBrand(newBranchName);
             mutate(); 
             toast.success("Brand added successfully");
             setIsAddModalVisible(false);
-            form.resetFields();
+            setNewBranchName("");
+            //form.resetFields();
         } catch (error) {
             toast.error("Error adding brand");
         }
@@ -40,14 +46,14 @@ const ManageBrand: React.FC = () => {
 
     const handleEditBrand = async () => {
         if (!editingBrand) return;
-        const values = await form.validateFields();
+        //const values = await form.validateFields();
         try {
-            await EditBrand(editingBrand.Id, values);
+            await EditBrand(editingBrand.id, newBranchName);
             mutate(); 
             setEditingBrand(null);
             setIsEditModalVisible(false);
             toast.success("Brand updated successfully");
-            form.resetFields();
+            //form.resetFields();
         } catch (error) {
             toast.error("Error updating brand");
         }
@@ -74,25 +80,26 @@ const ManageBrand: React.FC = () => {
             title: "Brand Name",
             // dataIndex: "BrandName",
             key: "BrandName",
-            render: (_: any, record: Brand) => (
-                <Tag color="blue">{record.BrandName}</Tag>
+            render: (_: any, record: Branch) => (
+                <Tag color="blue">{record.name}</Tag>
             ),
         },
-        {
-            title: "Description",
-            dataIndex: "Description",
-            key: "Description",
-        },
+        // {
+        //     title: "Description",
+        //     dataIndex: "Description",
+        //     key: "Description",
+        // },
         
         {
             title: "Edit Brand",
             key: "edit",
-            render: (_: any, record: Brand) => (
+            render: (_: any, record: Branch) => (
                 <Button
                     icon={<Pen />}
                     onClick={() => {
                         setEditingBrand(record);
-                        form.setFieldsValue(record);
+                        //form.setFieldsValue(record);
+                        setNewBranchName(record.name);
                         setIsEditModalVisible(true);
                     }}
                 >
@@ -103,11 +110,11 @@ const ManageBrand: React.FC = () => {
         {
             title: "Delete",
             key: "delete",
-            render: (_: any, record: Brand) => (
+            render: (_: any, record: Branch) => (
                 <Button
                     icon={<Trash />}
                     danger
-                    onClick={() => handleDeleteBrand(record.Id)}
+                    onClick={() => handleDeleteBrand(record.id)}
                 >
                     Delete
                 </Button>
@@ -146,23 +153,29 @@ const ManageBrand: React.FC = () => {
                 open={isAddModalVisible}
                 onOk={handleAddBrand}
                 onCancel={() => setIsAddModalVisible(false)}
+                okText="Add"
             >
-                <Form form={form} layout="vertical">
-                    <Form.Item name="BrandName" label={<p className='font-semibold text-sm'>Brand Name</p>} rules={[{ required: true }]}>
-                        <Input placeholder="Enter brand name" />
-                    </Form.Item>
-                    <Form.Item name="Description" label={<p className='font-semibold text-sm'>Description</p>}>
-                        <Input.TextArea placeholder="Enter description" />
-                    </Form.Item>
-                    <Form.Item name="ImageSource" label={<p className='font-semibold text-sm'>Brand Image</p>}>
+                {/* <Form form={form} layout="vertical"> */}
+                    {/* <Form.Item name="name" label={<p className='font-semibold text-sm'>Brand Name</p>} rules={[{ required: true }]}> */}
+                        <Input placeholder="Enter brand name" 
+                        value={newBranchName}
+                        onChange={(e) => setNewBranchName(e.target.value)}/>
+                    {/* </Form.Item> */}
+                    {/* <Form.Item name="Description" label={<p className='font-semibold text-sm'>Description</p>}> */}
+                        <Input.TextArea placeholder="Enter description" disabled />
+                    {/* </Form.Item> */}
+                    {/* <Form.Item name="ImageSource" label={<p className='font-semibold text-sm'>Brand Image</p>}> */}
                         <Upload 
                             listType="picture-card"
                             maxCount={1}
-                            beforeUpload={(file) => { form.setFieldsValue({ ImageSource: file }); return false; }}>
+                            disabled
+                            // beforeUpload={(file) => { form.setFieldsValue({ ImageSource: file }); return false; }}
+                            >
+                            
                             <Button className="border-none text-gray-300" icon = {<UploadIcon />}/>
                         </Upload>
-                    </Form.Item>
-                </Form>
+                    {/* </Form.Item> */}
+                {/* </Form> */}
             </Modal>
 
             <Modal
@@ -170,20 +183,27 @@ const ManageBrand: React.FC = () => {
                 open={isEditModalVisible}
                 onOk={handleEditBrand}
                 onCancel={() => setIsEditModalVisible(false)}
+                okText="Save"
             >
-                <Form form={form} layout="vertical">
-                    <Form.Item name="BrandName" label={<p className='font-semibold text-sm'>Brand Name</p>} rules={[{ required: true }]}>
-                        <Input placeholder="Enter brand name" />
-                    </Form.Item>
-                    <Form.Item name="Description" label={<p className='font-semibold text-sm'>Description</p>}>
-                        <Input.TextArea placeholder="Enter description" />
-                    </Form.Item>
-                    <Form.Item name="ImageSource" label={<p className='font-semibold text-sm'>Brand Image</p>}>
-                        <Upload beforeUpload={(file) => { form.setFieldsValue({ ImageSource: file }); return false; }}>
-                            <Button>Upload Image</Button>
+                {/* <Form form={form} layout="vertical"> */}
+                    {/* <Form.Item name="BrandName" label={<p className='font-semibold text-sm'>Brand Name</p>} rules={[{ required: true }]}> */}
+                        <Input placeholder="Enter brand name"
+                        value={newBranchName}
+                        onChange={(e) => setNewBranchName(e.target.value)} />
+                    {/* </Form.Item> */}
+                    {/* <Form.Item name="Description" label={<p className='font-semibold text-sm'>Description</p>}> */}
+                        <Input.TextArea className="mb-12" placeholder="Enter description" disabled />
+                    {/* </Form.Item> */}
+                    {/* <Form.Item name="ImageSource" label={<p className='font-semibold text-sm'>Brand Image</p>}> */}
+                        <Upload
+                        
+                        disabled
+                        // beforeUpload={(file) => { form.setFieldsValue({ ImageSource: file }); return false; }} 
+                        >
+                            <Button disabled >Upload Image</Button>
                         </Upload>
-                    </Form.Item>
-                </Form>
+                    {/* </Form.Item> */}
+                {/* </Form> */}
             </Modal>
             
         </div>
@@ -191,3 +211,4 @@ const ManageBrand: React.FC = () => {
 };
 
 export default ManageBrand;
+
