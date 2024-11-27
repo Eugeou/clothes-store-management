@@ -4,8 +4,8 @@ export type StoreLogin = {
 }
 
   export type StoreToken = {
-    access: string
-    refresh: string
+    access_token: string
+    refresh_token: string
 }
 
 export type UserProps = {

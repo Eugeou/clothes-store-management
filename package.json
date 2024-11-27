@@ -26,6 +26,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/antd": "^1.0.4",
     "@types/node": "^20",
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-color": "^3.0.12",

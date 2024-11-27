@@ -1,5 +1,6 @@
 import envConfig from "@/configs/config";
 import { ParseJSON } from "@/configs/parseJSON";
+import { StoreLogin, StoreToken } from "@/types/entities/auth-entity";
 import axios from "axios";
 
 const getAccessToken = () => (typeof window !== "undefined" ? localStorage.getItem("access_token") : null);
@@ -28,6 +29,26 @@ export const loginUser = async (username: string, password: string) => {
     }
 };
 
+// export const login = async (bodyLogin: StoreLogin) => {
+//     const { data } = await axios.post<{
+//       data: any
+//     }>(envConfig.NEXT_PUBLIC_API_ENDPOINT + '/auth/login', bodyLogin, {
+//       baseURL: envConfig.NEXT_PUBLIC_API_ENDPOINT
+//     })
+//     return data
+// }
+
+export const login = async (bodyLogin: StoreLogin) => {
+    const loginURL = envConfig.NEXT_PUBLIC_API_ENDPOINT + "/auth/login";
+    try {
+        const response = await axios.post(loginURL, bodyLogin);
+        return response;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Login failed');
+    }
+}
+
 export const logout = async (): Promise<void> => {
   
     const LogOutURL = envConfig.NEXT_PUBLIC_API_ENDPOINT + "/auth/logout";
@@ -51,7 +72,7 @@ export const logout = async (): Promise<void> => {
 };
 
 export const GetMe = async ()=> {
-    
+
     const GetMeUrl = envConfig.NEXT_PUBLIC_API_ENDPOINT + "/auth/me";
     
     try {

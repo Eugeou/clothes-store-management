@@ -11,8 +11,8 @@ type AuthState = {
 }
 const initialState: AuthState = {
   token: {
-    access: '',
-    refresh: ''
+    access_token: '',
+    refresh_token: ''
   },
   user: null
 }
@@ -32,14 +32,14 @@ export const authSlice = createSlice({
     setToken: (state, action: PayloadAction<AuthState['token']>) => {
       state.token = action.payload
       if (action.payload) {
-        localStorage.setItem('accessToken', action.payload.access)
-        localStorage.setItem('refreshToken', action.payload.refresh)
+        localStorage.setItem('accessToken', action.payload.access_token)
+        localStorage.setItem('refreshToken', action.payload.refresh_token)
       }
     },
     logout: (state) => {
       state.token = {
-        access: '',
-        refresh: ''
+        access_token: '',
+        refresh_token: ''
       }
       state.user = null
       localStorage.clear()

@@ -2,11 +2,12 @@ import axios, { AxiosResponse } from "axios";
 import envConfig from "@/configs/config";
 import { Branch, CreatedBrand } from "@/types/entities/brand-entity";
 import { ParseJSON } from "@/configs/parseJSON";
+import { useAppSelector } from "@/types/redux/redux";
+import { selectAuth } from "@/redux/slices/auth.slice";
 
 const BrandUrl = envConfig.NEXT_PUBLIC_API_ENDPOINT + "/branch";
-const getAccessToken = () => (typeof window !== "undefined" ? localStorage.getItem("access_token") : null);
-const accessToken = getAccessToken();
-const parseToken = accessToken ? ParseJSON(accessToken) : null;
+const { token } = useAppSelector(selectAuth)
+const parseToken = token?.access_token ? ParseJSON(token?.access_token) : null;
 
 // export const CreateBrand = async (brand: CreatedBrand) => {
     
@@ -151,20 +152,13 @@ const parseToken = accessToken ? ParseJSON(accessToken) : null;
 // };
 
 export const GetAllBrand = async (): Promise<Branch[]> => {
-
-    // if (!accessToken) {
-    //     throw new Error('No access token found');
-    // }
-
-    //const parseToken = ParseJSON(accessToken);
-    
     try {
         const config = {
             method: 'get',
             maxBodyLength: Infinity,
             url: BrandUrl,
             headers: {
-              "Authorization": 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb25sZTEwMjAwM0BnbWFpbC5jb20iLCJpYXQiOjE3MTYzNjMzOTYsImV4cCI6MTcxNjM2Njk5Nn0.afL_a4RB2S_6M2deie3hYRQLTprYBxMbAS-NQkNbQq',
+              "Authorization": `Bearer ${parseToken}`,
             }
           };
         
@@ -177,20 +171,13 @@ export const GetAllBrand = async (): Promise<Branch[]> => {
 };
 
 export const CreateBrand = async (branchName: string) => {
-    
-    // if (!accessToken) {
-    //     throw new Error("No access token found");
-    // }
-    
-    // const parseToken = ParseJSON(accessToken);
-
     try {
         const config = {
             method: "post",
             maxBodyLength: Infinity,
             url: BrandUrl,
             headers: {
-                "Authorization": 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb25sZTEwMjAwM0BnbWFpbC5jb20iLCJpYXQiOjE3MTYzNjMzOTYsImV4cCI6MTcxNjM2Njk5Nn0.afL_a4RB2S_6M2deie3hYRQLTprYBxMbAS-NQkNbQq',
+                "Authorization": `Bearer ${parseToken}`,
                 "Content-Type": "application/json",
             },
             data: JSON.stringify({ name: branchName }),
@@ -208,18 +195,12 @@ export const DeleteBrand = async (id: string) => {
 
     const DeleteURL = envConfig.NEXT_PUBLIC_API_ENDPOINT + `/branch/${id}`;
 
-    // if (!accessToken) {
-    //     throw new Error("No access token found");
-    // }
-
-    // const parseToken = ParseJSON(accessToken);
-
     const config = {
         method: "delete",
         maxBodyLength: Infinity,
         url: DeleteURL,
         headers: {
-            "Authorization": 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb25sZTEwMjAwM0BnbWFpbC5jb20iLCJpYXQiOjE3MTYzNjMzOTYsImV4cCI6MTcxNjM2Njk5Nn0.afL_a4RB2S_6M2deie3hYRQLTprYBxMbAS-NQkNbQq',
+            "Authorization": `Bearer ${parseToken}`,
         },
     };
     try {
@@ -233,13 +214,6 @@ export const DeleteBrand = async (id: string) => {
 export const EditBrand = async (id: string, name: string) => {
 
     const EditBranchUrl = envConfig.NEXT_PUBLIC_API_ENDPOINT + `/branch/${id}`;
-
-    // if (!accessToken) {
-    //     throw new Error("No access token found");
-    // }
-
-    // const parseToken = ParseJSON(accessToken);
-
     try {
         const config = {
             method: "put",

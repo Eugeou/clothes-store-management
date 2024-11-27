@@ -28,17 +28,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ReduxProvider>
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <ReduxProvider>
             {children}
             <ToastContainer 
               position="top-center"
             />
+          </ReduxProvider>
         </body>
       </html>
-    </ReduxProvider>
   );
 }
