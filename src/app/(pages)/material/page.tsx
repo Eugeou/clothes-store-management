@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 
 
 const ManageMaterial = dynamic(() => import("@/components/material/ManageMaterial"), {
-  ssr: false,
+  //ssr: false,
 });
 
 const ManageBrandPage: React.FC = () => {

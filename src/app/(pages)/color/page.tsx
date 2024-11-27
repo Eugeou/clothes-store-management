@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 
 //Dynamic import ManageColor component
 const ManageColor = dynamic(() => import('@/components/color/ManageColor'), {
-    ssr: false,
+    //ssr: false,
 });
 
 

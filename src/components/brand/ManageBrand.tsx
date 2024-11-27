@@ -9,8 +9,11 @@ import { Branch } from "@/types/entities/brand-entity";
 import { CreateBrand, DeleteBrand, EditBrand, GetAllBrand } from "@/services/brand-service";
 import envConfig from "@/configs/config";
 import useDebounce from "@/hooks/useDebounce";
+import App from "next/app";
+
 
 const ManageBrand: React.FC = () => {
+
     const { data: brands , mutate } = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + "/branch", GetAllBrand, { fallbackData: [] });
     //const [form] = Form.useForm();
     //console.log('brands list: ', brands);

@@ -4,7 +4,7 @@ import { Tags } from "lucide-react";
 import dynamic from "next/dynamic";
 
 const ManageBrand = dynamic(() => import("@/components/brand/ManageBrand"), {
-  ssr: false,
+  //ssr: false,
 });
 
 const ManageBrandPage: React.FC = () => {
