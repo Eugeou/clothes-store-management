@@ -1,4 +1,3 @@
-
 import { getUser, selectAuth, setToken } from '@/redux/slices/auth.slice'
 import { login, loginUser } from '@/services/auth-service'
 import { StoreLogin } from '@/types/entities/auth-entity'
@@ -39,6 +38,7 @@ export function useAuth() {
 
     checkAuthentication()
   }, [])
+
   useEffect(() => {
     if (token.access_token) {
       dispatch(getUser())
@@ -58,6 +58,7 @@ export function useAuth() {
       //console.log("Data: ", response.data)
       if (response.data?.access_token) {
         dispatch(setToken(response.data))
+        localStorage.setItem('role', response.data.role)
       }
 
       toast.success('Đăng nhập thành công')

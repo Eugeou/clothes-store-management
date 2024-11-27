@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 import { Table, Button, Modal, Form, Input, Upload, Tag } from "antd";
 import { toast } from "react-toastify";
@@ -9,16 +9,13 @@ import { Branch } from "@/types/entities/brand-entity";
 import { CreateBrand, DeleteBrand, EditBrand, GetAllBrand } from "@/services/brand-service";
 import envConfig from "@/configs/config";
 import useDebounce from "@/hooks/useDebounce";
-import App from "next/app";
 
-
-const ManageBrand: React.FC = () => {
+const ManageBrand = () => {
 
     const { data: brands , mutate } = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + "/branch", GetAllBrand, { fallbackData: [] });
     //const [form] = Form.useForm();
     //console.log('brands list: ', brands);
     const [newBranchName, setNewBranchName] = useState("");
-
     const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const [editingBrand, setEditingBrand] = useState<Branch | null>(null);
@@ -29,6 +26,7 @@ const ManageBrand: React.FC = () => {
     const filteredBrands = (brands as any).filter((brand: { name: string; }) =>
         brand.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
     );
+
 
     //console.log('filteredBrands: ', filteredBrands);
 
@@ -125,6 +123,7 @@ const ManageBrand: React.FC = () => {
         },
     ];
 
+
     //console.log(brands);
 
     return (
@@ -160,12 +159,12 @@ const ManageBrand: React.FC = () => {
             >
                 {/* <Form form={form} layout="vertical"> */}
                     {/* <Form.Item name="name" label={<p className='font-semibold text-sm'>Brand Name</p>} rules={[{ required: true }]}> */}
-                        <Input placeholder="Enter brand name" 
+                        <Input className="mb-12" placeholder="Enter brand name" 
                         value={newBranchName}
                         onChange={(e) => setNewBranchName(e.target.value)}/>
                     {/* </Form.Item> */}
                     {/* <Form.Item name="Description" label={<p className='font-semibold text-sm'>Description</p>}> */}
-                        <Input.TextArea placeholder="Enter description" disabled />
+                        <Input.TextArea className="mb-12" placeholder="Enter description" disabled />
                     {/* </Form.Item> */}
                     {/* <Form.Item name="ImageSource" label={<p className='font-semibold text-sm'>Brand Image</p>}> */}
                         <Upload 
@@ -190,7 +189,7 @@ const ManageBrand: React.FC = () => {
             >
                 {/* <Form form={form} layout="vertical"> */}
                     {/* <Form.Item name="BrandName" label={<p className='font-semibold text-sm'>Brand Name</p>} rules={[{ required: true }]}> */}
-                        <Input placeholder="Enter brand name"
+                        <Input className="mb-12" placeholder="Enter brand name"
                         value={newBranchName}
                         onChange={(e) => setNewBranchName(e.target.value)} />
                     {/* </Form.Item> */}
@@ -199,11 +198,12 @@ const ManageBrand: React.FC = () => {
                     {/* </Form.Item> */}
                     {/* <Form.Item name="ImageSource" label={<p className='font-semibold text-sm'>Brand Image</p>}> */}
                         <Upload
-                        
+                        listType="picture-card"
+                        maxCount={1}
                         disabled
                         // beforeUpload={(file) => { form.setFieldsValue({ ImageSource: file }); return false; }} 
                         >
-                            <Button disabled >Upload Image</Button>
+                            <Button className="border-none text-gray-300" icon = {<UploadIcon />}/>
                         </Upload>
                     {/* </Form.Item> */}
                 {/* </Form> */}

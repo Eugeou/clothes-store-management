@@ -3,9 +3,9 @@ import { ParseJSON } from "@/configs/parseJSON";
 import { StoreLogin, StoreToken } from "@/types/entities/auth-entity";
 import axios from "axios";
 
-const getAccessToken = () => (typeof window !== "undefined" ? localStorage.getItem("access_token") : null);
-const accessToken = getAccessToken();
-const parseToken = accessToken ? ParseJSON(accessToken) : null;
+// const getAccessToken = () => (typeof window !== "undefined" ? localStorage.getItem("access_token") : null);
+const accessToken = localStorage.getItem("accessToken");
+// const parseToken = accessToken ? ParseJSON(accessToken) : null;
 
 export const loginUser = async (username: string, password: string) => {
 
@@ -58,7 +58,7 @@ export const logout = async (): Promise<void> => {
       maxBodyLength: Infinity,
       url: LogOutURL,
       headers: {
-        'Authorization': `Bearer ${parseToken}`,
+        'Authorization': `Bearer ${accessToken}`,
       }
     };
   

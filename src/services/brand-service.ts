@@ -2,12 +2,12 @@ import axios, { AxiosResponse } from "axios";
 import envConfig from "@/configs/config";
 import { Branch, CreatedBrand } from "@/types/entities/brand-entity";
 import { ParseJSON } from "@/configs/parseJSON";
-import { useAppSelector } from "@/types/redux/redux";
-import { selectAuth } from "@/redux/slices/auth.slice";
+
 
 const BrandUrl = envConfig.NEXT_PUBLIC_API_ENDPOINT + "/branch";
-const { token } = useAppSelector(selectAuth)
-const parseToken = token?.access_token ? ParseJSON(token?.access_token) : null;
+const accessToken = localStorage.getItem("accessToken");
+// const parseToken = (accessToken) ? ParseJSON(accessToken) : null;
+
 
 // export const CreateBrand = async (brand: CreatedBrand) => {
     
@@ -158,7 +158,7 @@ export const GetAllBrand = async (): Promise<Branch[]> => {
             maxBodyLength: Infinity,
             url: BrandUrl,
             headers: {
-              "Authorization": `Bearer ${parseToken}`,
+              "Authorization": `Bearer ${accessToken}`,
             }
           };
         
@@ -177,7 +177,7 @@ export const CreateBrand = async (branchName: string) => {
             maxBodyLength: Infinity,
             url: BrandUrl,
             headers: {
-                "Authorization": `Bearer ${parseToken}`,
+                "Authorization": `Bearer ${accessToken}`,
                 "Content-Type": "application/json",
             },
             data: JSON.stringify({ name: branchName }),
@@ -200,7 +200,7 @@ export const DeleteBrand = async (id: string) => {
         maxBodyLength: Infinity,
         url: DeleteURL,
         headers: {
-            "Authorization": `Bearer ${parseToken}`,
+            "Authorization": `Bearer ${accessToken}`,
         },
     };
     try {
@@ -221,7 +221,7 @@ export const EditBrand = async (id: string, name: string) => {
             url: EditBranchUrl,
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${parseToken}`,
+                "Authorization": `Bearer ${accessToken}`,
             },
             data: JSON.stringify({ name }),
         };

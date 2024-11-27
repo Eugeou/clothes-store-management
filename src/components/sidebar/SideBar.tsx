@@ -21,9 +21,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
   
   useEffect(() => {
     const storedRole = localStorage.getItem('role');
-    console.log(storedRole);
+    //console.log(storedRole);
     if (storedRole) {
-      setRole(JSON.parse(storedRole));
+      setRole(storedRole);
     }
   }, []);
 
@@ -61,7 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
             <>
               <li className="p-4 mb-2 rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-indigo-800">
                 <LayoutDashboardIcon className="mr-2" />
-                {!isCollapsed && <Link href="/pages/dashboard">Dashboard</Link>}
+                {!isCollapsed && <Link href="/dashboard">Dashboard</Link>}
               </li>
 
               {/*Category Link */}
@@ -84,15 +84,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
               >
                 <li className="p-2 mb-2 mt-2 left-3 rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-indigo-900">
                   <Tags  className="mr-2" />
-                  <Link href="/pages/brand">Brands</Link>
+                  <Link href="/brand">Brands</Link>
                 </li>
                 <li className="p-2 mb-2 mt-2 left-3 rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-indigo-900">
                   <PersonStanding className="mr-2" />
-                  <Link href="/pages/manage-category/gender">Genders</Link>
+                  <Link href="/gender">Genders</Link>
                 </li>
                 <li className="p-2 mb-2 mt-2 left-3 rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-indigo-900">
                   <Slack className="mr-2" />
-                  <Link href="/pages/manage-category/category">Category</Link>
+                  <Link href="/category">Category</Link>
                 </li>
               </ul>
             </>
