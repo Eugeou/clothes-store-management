@@ -10,6 +10,7 @@ import { Col, Form, Image, Input, Row, Typography, Button } from 'antd'
 import React, { useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import {motion} from 'framer-motion'
 
 const LoginPage: React.FC = () => {
   const { onLogin, isLoading } = useAuth()
@@ -42,8 +43,13 @@ const LoginPage: React.FC = () => {
                     name='username' 
                     label= {<h2 className='font-semibold text-lg text-white'>User name (Email)</h2>}
                     rules={[{ required: true, message: 'Vui lòng nhập username' }]}>
-                  <Input className='text-lg p-3' type='email' placeholder='Nhập email của bạn'
-                  />
+                  <motion.div
+                      whileHover={{ scale: 1.01 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 17, duration: 0.5 }}
+                    >
+                    <Input className='text-lg p-3' type='email' placeholder='Nhập email của bạn'
+                    />
+                  </motion.div>
                 </Form.Item>
                 </Col>
                 <Col span={24}>
@@ -51,11 +57,18 @@ const LoginPage: React.FC = () => {
                     name='password' 
                     label= {<h2 className='font-semibold text-lg text-white'>Password</h2>}
                     rules={[{ required: true, message: 'Vui lòng nhập password' }]}>
-                  <Input
-                    className='text-lg p-3'
-                    type='password'
-                    placeholder='Nhập mật khẩu của bạn'
-                  />
+
+                  <motion.div
+                      whileHover={{ scale: 1.01 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 17, duration: 0.5 }}
+                    >
+                    <Input
+                      className='text-lg p-3'
+                      type='password'
+                      placeholder='Nhập mật khẩu của bạn'
+                    />
+                  </motion.div>
+
                 </Form.Item>
                 <Link href='/forgot-password'>
                   <Typography.Text className='text-lg text-white underline'>Forgot password</Typography.Text>
@@ -63,14 +76,21 @@ const LoginPage: React.FC = () => {
                 </Col>
 
                 <Col span={24} className='p-8'>
-                  <Button
-                    type='primary'
-                    htmlType='submit'
-                    className='w-full p-6 hover:bg-[#85cfed] bg-blue-900'
-                    loading={isLoading}
-                  >
-                    <Typography.Text className='text-xl font-semibold text-white'>Đăng nhập</Typography.Text>
-                  </Button>
+                    <motion.div
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 17, duration: 1 }}
+
+                    >
+                    <Button
+                      type='primary'
+                      htmlType='submit'
+                      className='w-full p-6 hover:bg-[#85cfed] bg-blue-900'
+                      loading={isLoading}
+                    >
+                      <Typography.Text className='text-xl font-semibold text-white'>Đăng nhập</Typography.Text>
+                    </Button>
+                    </motion.div>
                 </Col>
               </Row>
             </Form>

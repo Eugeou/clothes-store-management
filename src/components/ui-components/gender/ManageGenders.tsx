@@ -115,7 +115,7 @@ const ManagePG: React.FC = () => {
              
                 <Input className="focus:placeholder-transparent focus:border-blue-500 w-2/3 h-10 border border-gray-400 rounded-lg shadow-lg" 
                     placeholder="Search by product gender name"
-                    prefix={<SearchOutlined className="mr-2" />}
+                    prefix={<SearchOutlined className="mr-2 " width={40} height={40} />}
                     onChange={handleSearch}
                 />
             </motion.div>

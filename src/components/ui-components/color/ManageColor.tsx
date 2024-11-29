@@ -13,7 +13,7 @@ import useDebounce from '@/hooks/useDebounce';
 import { motion } from 'framer-motion';
 
 const ManageColor: React.FC = () => {
-  const { data: colors, mutate } = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + '/color', GetAllColors, { fallbackData: [] });
+  const { data: colors, mutate, isLoading } = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + '/color', GetAllColors, { fallbackData: [] });
   const [form] = Form.useForm();
 
   const [visible, setVisible] = useState(false);
@@ -165,10 +165,21 @@ const ManageColor: React.FC = () => {
       <Table
         columns={columns}
         dataSource={filteredColors}
+        loading={isLoading}
         rowKey="Id"
         pagination={{ pageSize: 10 }}
-        className="shadow-lg border border-gray-300 rounded-lg"
+        className="shadow-lg border border-gray-100 rounded-lg"
         bordered
+        components={{
+          header: {
+              cell: (props: any) => {
+                  return (
+                      <th {...props} style={{ backgroundColor: '#f0f0f0', fontSize: '16px', fontWeight: 'semibold', borderLeft: '1px solid #fff' }}></th>
+                  );
+              }
+          }
+      }}
+      
       />
 
       <Modal

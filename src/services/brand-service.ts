@@ -1,8 +1,8 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import envConfig from "@/configs/config";
 import { Branch, CreatedBrand } from "@/types/entities/brand-entity";
 import { ParseJSON } from "@/configs/parseJSON";
-
+import { toast } from "react-toastify";
 
 const BrandUrl = envConfig.NEXT_PUBLIC_API_ENDPOINT + "/branch";
 const accessToken = localStorage.getItem("accessToken");
@@ -165,7 +165,8 @@ export const GetAllBrand = async (): Promise<Branch[]> => {
           const response: AxiosResponse<Branch[]> = await axios.request(config);
           return response.data;
     } catch (error) {
-        console.error(error);
+        //console.error(error);
+        //toast.warning(error.toString() || "Get all branch failed");
         throw new Error('Get all brand failed');
     }
 };

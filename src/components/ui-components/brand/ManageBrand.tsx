@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { use, useCallback, useState } from "react";
 import useSWR from "swr";
 import { Table, Button, Modal, Form, Input, Upload, Tag } from "antd";
 import { toast } from "react-toastify";
@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 
 const ManageBrand = () => {
 
-    const { data: brands , mutate } = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + "/branch", GetAllBrand, { fallbackData: [] });
+    const { data: brands , mutate, isLoading } = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + "/branch", GetAllBrand, { fallbackData: [] });
     //const [form] = Form.useForm();
     //console.log('brands list: ', brands);
     const [newBranchName, setNewBranchName] = useState("");
@@ -124,13 +124,10 @@ const ManageBrand = () => {
         },
     ];
 
-
-    //console.log(brands);
-
     return (
         <div>
-            
             <div className="flex justify-between items-center w-full mb-8">
+
                 <motion.div style={{ width: "70%" }} whileHover={{ scale: 1.01 }} whileTap={{ scale: 1.01 }} transition={{ duration: 0.5, ease: "easeInOut" }}>
                     <Input 
                         placeholder="Search by brand name" 
@@ -150,9 +147,28 @@ const ManageBrand = () => {
             <Table
                 dataSource={filteredBrands} 
                 columns={columns}
+                loading={isLoading}
                 rowKey="Id"
                 pagination={{ pageSize: 10 }}
                 className="min-w-full shadow-lg border border-gray-300 rounded-lg text-xl font-semibold"
+                // onHeaderRow={(column) => {
+                //     return (
+                //         {
+                //             onClick: () => console.log('clicked'),
+                //         }
+                //     );
+                // }}
+                components={{
+                    header: {
+                        cell: (props: any) => {
+                            return (
+                                <th {...props} style={{ backgroundColor: '#f0f0f0', fontSize: '16px', fontWeight: 'semibold' }}></th>
+                            );
+                        }
+                    }
+                }}
+                
+
                 bordered
             />
 
