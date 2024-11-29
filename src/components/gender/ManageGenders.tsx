@@ -10,6 +10,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import useSWR from "swr";
 import envConfig from "@/configs/config";
 import useDebounce from "@/hooks/useDebounce";
+import { motion } from "framer-motion";
 
 const ManagePG: React.FC = () => {
 
@@ -109,19 +110,25 @@ const ManagePG: React.FC = () => {
     return (
         <div>
         <div className="flex justify-between items-center w-full mb-6">
-            <Input className="focus:placeholder-transparent focus:border-blue-500 w-2/3 h-10 border border-gray-400 rounded-lg shadow-lg" 
-                placeholder="Search by product gender name"
-                prefix={<SearchOutlined className="mr-2" />}
-                onChange={handleSearch}
-            />
 
-            <Button className="flex flex-row text-center items-center space-x-1 shadow-xl text-lg h-10 rounded-lg"
-                type="primary"
-                icon={<BookmarkPlus height={18} width={18} />}
-                onClick={() => setIsModalVisible(true)}
-            >
-                Add Gender
-            </Button>
+            <motion.div style={{ width: "70%" }} whileHover={{ scale: 1.01 }} whileTap={{ scale: 1.01 }} transition={{ duration: 0.5, ease: "easeInOut" }}>
+             
+                <Input className="focus:placeholder-transparent focus:border-blue-500 w-2/3 h-10 border border-gray-400 rounded-lg shadow-lg" 
+                    placeholder="Search by product gender name"
+                    prefix={<SearchOutlined className="mr-2" />}
+                    onChange={handleSearch}
+                />
+            </motion.div>
+            
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} transition={{ duration: 0.5, ease: "easeInOut" }}>
+                <Button className="flex flex-row text-center items-center space-x-1 shadow-xl text-lg h-10 rounded-lg"
+                    type="primary"
+                    icon={<BookmarkPlus height={18} width={18} />}
+                    onClick={() => setIsModalVisible(true)}
+                >
+                    Add Gender
+                </Button>
+            </motion.div>
             </div>
 
         <Table

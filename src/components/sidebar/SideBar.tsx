@@ -7,6 +7,7 @@ import { LayoutDashboardIcon } from 'lucide-react';
 import { Tags, PersonStanding, Slack } from 'lucide-react';
 import { BgColorsOutlined, OrderedListOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -47,24 +48,51 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
       <div className="flex justify-between items-center p-4">
         
         {!isCollapsed && 
-        <div className="text-2xl font-bold">
+        <motion.div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           FurniStore
-        </div>}
-        <button onClick={handleCollapseClick} className="text-gray-100 bg-indigo-600 h-8 w-8 rounded-lg shadow-xl">
-          {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
-        </button>
+        </motion.div>}
+        <div onClick={handleCollapseClick} className="text-gray-100 bg-indigo-600 h-8 w-8 rounded-lg shadow-xl flex items-center justify-center hover:scale-110 transition duration-500 ease-out">
+          <motion.button
+            initial={{ scale: 1 }}
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
+
+          </motion.button>
+        </div>
       </div>
       <nav className="flex-1">
         <ul>
           {/* Only render for ADMIN */}
           {role === 'ADMIN' && (
             <>
+              {/* Dashboard Link */}
+              <motion.div
+                style={{ borderRadius: '50px' }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.1, borderRadius: '50px' }}
+              >
               <li className="p-4 mb-2 rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-indigo-800">
                 <LayoutDashboardIcon className="mr-2" />
                 {!isCollapsed && <Link href="/dashboard">Dashboard</Link>}
               </li>
+              </motion.div>
 
               {/*Category Link */}
+              <motion.div
+                style={{ borderRadius: '50px' }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.1, borderRadius: '50px' }}
+              >
               <li className="p-4 mb-2 rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center justify-between transition duration-500 ease-out focus:outline-none active:bg-indigo-900" onClick={() => handleDropdownClick('category')}>
                 <div className="flex items-center cursor-pointer">
                   <Slack className="mr-2" />
@@ -76,7 +104,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
                   </div>
                 )}
               </li>
+              </motion.div>
 
+             
               <ul
                 className={`pl-8 m-2 transition-max-height duration-300 ease-in-out overflow-hidden ${
                   openDropdown === 'category' && !isCollapsed ? 'max-h-64' : 'max-h-0'
@@ -101,6 +131,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
           {/* Product Link */}
           {role === 'ADMIN' || role === 'STAFF' ? (
             <>
+              {/*Product Link */}
+              <motion.div
+                style={{ borderRadius: '50px' }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.1, borderRadius: '50px' }}
+              >
               <li className="p-4 mb-2 rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center justify-between transition duration-500 ease-out focus:outline-none active:bg-indigo-900" onClick={() => handleDropdownClick('product')}>
                 <div className="flex items-center cursor-pointer">
                   <Package className="mr-2" />
@@ -112,6 +150,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
                   </div>
                 )}
               </li>
+              </motion.div>
 
               <ul
                 className={`pl-8 m-2 transition-max-height duration-300 ease-in-out overflow-hidden ${
@@ -120,21 +159,28 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
               >
                 <li className="p-2 mb-2 mt-2 left-3 rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-indigo-900">
                   <BgColorsOutlined  className="mr-2" />
-                  <Link href="/pages/color">Colors</Link>
+                  <Link href="/color">Colors</Link>
                 </li>
                 <li className="p-2 mb-2 mt-2 left-3 rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-indigo-900">
                   <Blocks className="mr-2" />
-                  <Link href="/pages/material">Materials</Link>
+                  <Link href="/material">Materials</Link>
                 </li>
                 <li className="p-2 mb-2 mt-2 left-3 rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-indigo-900">
                   <PackageOpen className="mr-2" />
-                  <Link href="/pages/manage-products/products/list-products">Products list</Link>
+                  <Link href="/products/list-products">Products list</Link>
                 </li>
               </ul>
 
 
               {/*Imports Link */}
-            <li className="p-4 mb-2 rounded-lg hover:bg-indigo-500 group hover:text-white font-semibold flex items-center justify-between transition duration-500 ease-out focus:outline-none active:bg-indigo-900" onClick={() => handleDropdownClick('invoices')}>
+              <motion.div
+                style={{ borderRadius: '50px' }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.1, borderRadius: '50px' }}
+              >
+              <li className="p-4 mb-2 rounded-lg hover:bg-indigo-500 group hover:text-white font-semibold flex items-center justify-between transition duration-500 ease-out focus:outline-none active:bg-indigo-900" onClick={() => handleDropdownClick('invoices')}>
               <div className="flex items-center cursor-pointer">
                 <Import className="mr-2" />
                 {!isCollapsed && 'Import'}
@@ -145,6 +191,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
                 </div>
               )}
             </li>
+            </motion.div>
+
             <ul
               className={`pl-8 m-2 transition-max-height duration-300 ease-in-out focus:outline-none  overflow-hidden ${
                 openDropdown === 'invoices' && !isCollapsed ? 'max-h-64' : 'max-h-0'
@@ -166,6 +214,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
           {/* Events Link */}
           {role === 'ADMIN' || role === 'STAFF' ? (
             <>
+              <motion.div
+                style={{ borderRadius: '50px' }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.1, borderRadius: '50px' }}
+              >
               <li className="p-4 mb-2 rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center justify-between transition duration-500 ease-out focus:outline-none active:bg-indigo-900" onClick={() => handleDropdownClick('events')}>
                 <div className="flex items-center cursor-pointer">
                   <CalendarHeart className="mr-2" />
@@ -177,6 +232,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
                   </div>
                 )}
               </li>
+              </motion.div>
 
               <ul
                 className={`pl-8 m-2 transition-max-height duration-300 ease-in-out overflow-hidden ${
@@ -194,8 +250,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
           {/* Customers Link */}
           {role === 'ADMIN' || role === 'STAFF' ? (
             <>
-              
-
+            <motion.div
+                style={{ borderRadius: '50px' }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.1, borderRadius: '50px' }}
+              >
             <li className="p-4 mb-2 rounded-lg hover:bg-indigo-500 group hover:text-white font-semibold flex items-center justify-between transition duration-500 ease-out focus:outline-none active:bg-indigo-900" onClick={() => handleDropdownClick('customers')}>
               <div className="flex items-center cursor-pointer">
                 <Users className="mr-2" />
@@ -207,6 +268,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
                 </div>
               )}
             </li>
+            </motion.div>
+
             <ul
               className={`pl-8 m-2 transition-max-height duration-300 ease-in-out focus:outline-none  overflow-hidden ${
                 openDropdown === 'customers' && !isCollapsed ? 'max-h-64' : 'max-h-0'
@@ -228,6 +291,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
           {/* Staffs Link */}
           {role === 'ADMIN' ? (
             <>
+              <motion.div
+                style={{ borderRadius: '50px' }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.1, borderRadius: '50px' }}
+              >
               <li className="p-4 mb-2 rounded-lg hover:bg-indigo-500 group hover:text-white font-semibold flex items-center justify-between transition duration-500 ease-out focus:outline-none active:bg-indigo-900" onClick={() => handleDropdownClick('users')}>
                 <div className="flex items-center cursor-pointer">
                   <Users className="mr-2" />
@@ -239,6 +309,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
                   </div>
                 )}
               </li>
+              </motion.div>
+
               <ul
                 className={`pl-8 m-2 transition-max-height duration-300 ease-in-out focus:outline-none  overflow-hidden ${
                   openDropdown === 'users' && !isCollapsed ? 'max-h-64' : 'max-h-0'
@@ -260,38 +332,54 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
           {/* Orders Link */}
           {role === 'ADMIN' || role === 'STAFF' ? (
             <>
+              <motion.div
+                style={{ borderRadius: '50px' }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.1, borderRadius: '50px' }}
+              >
               <li className="p-4 mb-2 rounded-lg hover:bg-indigo-500 group hover:text-white font-semibold flex items-center justify-between transition duration-500 ease-out focus:outline-none active:bg-indigo-900" onClick={() => handleDropdownClick('orders')}>
-            <div className="flex items-center cursor-pointer">
-              <ListOrdered className="mr-2" />
-              {!isCollapsed && 'Orders'}
-            </div>
-            {!isCollapsed && (
-              <div className={`transform transition-transform duration-300 ${openDropdown === 'orders' ? 'rotate-180' : 'rotate-0'}`}>
-                <ChevronDown />
-              </div>
-            )}
-          </li>
-          <ul
-            className={`pl-8 m-2 transition-max-height duration-300 ease-in-out focus:outline-none  overflow-hidden ${
-              openDropdown === 'orders' && !isCollapsed ? 'max-h-64' : 'max-h-0'
-            }`}
-          >
-            <li className=" p-2 mb-2 mt-2 left-3 rounded-lg hover:bg-indigo-600 hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-amber-800">
-              <ListOrdered className="mr-2 rounded-md" />
-              <Link href="/pages/orders/list-orders">List orders</Link>
-            </li>
-            
-            <li className=" p-2  rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-slate-900">
-              <FilePlus className="mr-2" />
-              <Link href="/pages/orders/create-order">Create order</Link>
-            </li>
-          </ul>
-            </>
-          ) : null}
+                <div className="flex items-center cursor-pointer">
+                  <ListOrdered className="mr-2" />
+                  {!isCollapsed && 'Orders'}
+                </div>
+                {!isCollapsed && (
+                  <div className={`transform transition-transform duration-300 ${openDropdown === 'orders' ? 'rotate-180' : 'rotate-0'}`}>
+                    <ChevronDown />
+                  </div>
+                )}
+              </li>
+              </motion.div>
+
+              <ul
+                className={`pl-8 m-2 transition-max-height duration-300 ease-in-out focus:outline-none  overflow-hidden ${
+                  openDropdown === 'orders' && !isCollapsed ? 'max-h-64' : 'max-h-0'
+                }`}
+              >
+                <li className=" p-2 mb-2 mt-2 left-3 rounded-lg hover:bg-indigo-600 hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-amber-800">
+                  <ListOrdered className="mr-2 rounded-md" />
+                  <Link href="/pages/orders/list-orders">List orders</Link>
+                </li>
+                
+                <li className=" p-2  rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-slate-900">
+                  <FilePlus className="mr-2" />
+                  <Link href="/pages/orders/create-order">Create order</Link>
+                </li>
+              </ul>
+              </>
+            ) : null}
 
           {/* Reports Link */}
           {role === 'ADMIN' ? (
             <>
+            <motion.div
+                style={{ borderRadius: '50px' }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ scale: 1.1, borderRadius: '50px' }}
+              >
               <li className="p-4 mb-2 rounded-lg hover:bg-indigo-500 group hover:text-white font-semibold flex items-center justify-between transition duration-500 ease-out focus:outline-none active:bg-indigo-900" onClick={() => handleDropdownClick('reports')}>
               <div className="flex items-center cursor-pointer">
                 <PieChart className="mr-2" />
@@ -303,6 +391,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
                 </div>
               )}
             </li>
+            </motion.div>
+            
             <ul
               className={`pl-8 m-2 transition-max-height duration-300 ease-in-out focus:outline-none  overflow-hidden ${
                 openDropdown === 'reports' && !isCollapsed ? 'max-h-64' : 'max-h-0'

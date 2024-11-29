@@ -9,6 +9,7 @@ import { Branch } from "@/types/entities/brand-entity";
 import { CreateBrand, DeleteBrand, EditBrand, GetAllBrand } from "@/services/brand-service";
 import envConfig from "@/configs/config";
 import useDebounce from "@/hooks/useDebounce";
+import { motion } from "framer-motion";
 
 const ManageBrand = () => {
 
@@ -130,15 +131,20 @@ const ManageBrand = () => {
         <div>
             
             <div className="flex justify-between items-center w-full mb-8">
-                <Input 
-                    placeholder="Search by brand name" 
-                    prefix={<SearchIcon />} 
-                    className="w-2/3 h-10 border border-gray-300 rounded-lg shadow-lg" 
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}/>
-                <Button type="primary" icon={<BookmarkPlus />} className="font-semibold shadow-lg h-10" onClick={() => setIsAddModalVisible(true)}>
-                    Add new Brand
-                </Button>
+                <motion.div style={{ width: "70%" }} whileHover={{ scale: 1.01 }} whileTap={{ scale: 1.01 }} transition={{ duration: 0.5, ease: "easeInOut" }}>
+                    <Input 
+                        placeholder="Search by brand name" 
+                        prefix={<SearchIcon />} 
+                        className="w-2/3 h-10 border border-gray-300 rounded-lg shadow-lg" 
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}/>
+                </motion.div>
+
+                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} transition={{ duration: 0.5, ease: "easeInOut" }}>
+                    <Button type="primary" icon={<BookmarkPlus />} className="font-semibold shadow-lg h-10" onClick={() => setIsAddModalVisible(true)}>
+                        Add new Brand
+                    </Button>
+                </motion.div>
             </div>
 
             <Table

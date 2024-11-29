@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { GetAllColors, AddColors, EditColor, DeleteColor } from '@/services/color-service';
 import envConfig from '@/configs/config';
 import useDebounce from '@/hooks/useDebounce';
+import { motion } from 'framer-motion';
 
 const ManageColor: React.FC = () => {
   const { data: colors, mutate } = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + '/color', GetAllColors, { fallbackData: [] });
@@ -128,6 +129,13 @@ const ManageColor: React.FC = () => {
   return (
     <div>
       <div className="flex justify-between items-center w-full mb-8">
+        
+        <motion.div
+          style={{ width: '70%' }}
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 1.01 }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
+        >
         <Input
           placeholder="Search by color name"
           prefix={<SearchIcon />}
@@ -135,14 +143,23 @@ const ManageColor: React.FC = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <Button
-          type="primary"
-          className="font-semibold shadow-lg h-10"
-          icon={<BookmarkPlus />}
-          onClick={handleOpenAddModal}
+        </motion.div>
+        
+        <motion.div
+          
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
-          Add New Color
-        </Button>
+          <Button
+            type="primary"
+            className="font-semibold shadow-lg h-10"
+            icon={<BookmarkPlus />}
+            onClick={handleOpenAddModal}
+          >
+            Add New Color
+          </Button>
+        </motion.div>
       </div>
 
       <Table
