@@ -26,11 +26,6 @@ const ManageCategory = () => {
     const { data: categories , mutate, isLoading } = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + "/category", GetAllCategory, { fallbackData: [] });
     const { data: genders} = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + "/productGender", GetAllGender, { fallbackData: [] });
     
-
-    
-    //const [genders, setGenders] = useState<Gender[]>([]);
-    //const [loading, setLoading] = useState(true);
-    //const [pagination, setPagination] = useState({ pageSize: 10, current: 1 });
     const [visible, setVisible] = useState(false);
     const [modalType, setModalType] = useState<'add' | 'edit'>('edit');
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);

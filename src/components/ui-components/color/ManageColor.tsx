@@ -7,18 +7,19 @@ import { BookmarkPlus, Tags, Trash, SearchIcon, Pen, PaintBucket } from 'lucide-
 import { SketchPicker } from 'react-color';
 import { Colors } from '@/types/entities/color-entity';
 import { toast } from 'react-toastify';
-import { GetAllColors, AddColors, EditColor, DeleteColor } from '@/services/color-service';
+import { GetAllColor, AddColors, EditColor, DeleteColor } from '@/services/color-service';
 import envConfig from '@/configs/config';
 import useDebounce from '@/hooks/useDebounce';
 import { motion } from 'framer-motion';
 
 const ManageColor: React.FC = () => {
-  const { data: colors, mutate, isLoading } = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + '/color', GetAllColors, { fallbackData: [] });
-  const [form] = Form.useForm();
+  const { data: colors, mutate, isLoading } = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + '/color', GetAllColor, { fallbackData: [] });
+  //const [form] = Form.useForm();
 
   const [visible, setVisible] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [currentColor, setCurrentColor] = useState<string>('#ffffff');
+  const [newColorName, setNewColorName] = useState("");
   const [editingColor, setEditingColor] = useState<Colors | null>(null);
   
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,9 +31,9 @@ const ManageColor: React.FC = () => {
 
   const handleAddColor = async () => {
     try {
-      const values = await form.validateFields();
-      const newColor = { ColorName: values.ColorName, ColorCode: currentColor };
-      await AddColors(newColor);
+      // const values = await form.validateFields();
+      // const newColor = { ColorName: values.ColorName, ColorCode: currentColor };
+      await AddColors(newColorName);
       toast.success('Color added successfully');
       mutate();
       handleCloseModal();
@@ -45,9 +46,9 @@ const ManageColor: React.FC = () => {
   const handleEditColor = async () => {
     if (!editingColor) return;
     try {
-      const values = await form.validateFields();
-      const updatedColor = { ...editingColor, ColorName: values.ColorName, ColorCode: currentColor };
-      await EditColor(updatedColor);
+      //const values = await form.validateFields();
+      //const updatedColor = { ...editingColor, ColorName: values.ColorName, ColorCode: currentColor };
+      await EditColor(editingColor.id, newColorName);
       toast.success('Color updated successfully');
       mutate();
       handleCloseModal();
@@ -57,7 +58,7 @@ const ManageColor: React.FC = () => {
     }
   };
 
-  const handleDeleteColor = async (colorId: string) => {
+  const handleDeleteColor = async (colorId: number) => {
     try {
       await DeleteColor(colorId);
       toast.success('Color deleted successfully');
@@ -73,7 +74,7 @@ const ManageColor: React.FC = () => {
     setEditMode(false);
     setCurrentColor('#ffffff');
     setEditingColor(null);
-    form.resetFields();
+    //form.resetFields();
   };
 
   const handleOpenAddModal = () => {
@@ -85,8 +86,8 @@ const ManageColor: React.FC = () => {
     setVisible(true);
     setEditMode(true);
     setEditingColor(color);
-    setCurrentColor(color.ColorCode);
-    form.setFieldsValue({ ColorName: color.ColorName });
+    setCurrentColor(color.name);
+    //form.setFieldsValue({ ColorName: color.ColorName });
   };
 
   const columns = [
@@ -118,7 +119,7 @@ const ManageColor: React.FC = () => {
           <Button icon={<Pen />} onClick={() => handleOpenEditModal(record)}>
             Edit
           </Button>
-          <Button icon={<Trash />} danger onClick={() => handleDeleteColor(record.Id)}>
+          <Button icon={<Trash />} danger onClick={() => handleDeleteColor(record.id)}>
             Delete
           </Button>
         </div>
@@ -197,28 +198,32 @@ const ManageColor: React.FC = () => {
         open={visible}
         onCancel={handleCloseModal}
         onOk={editMode ? handleEditColor : handleAddColor}
+        okText={editMode ? 'Update' : 'Add'}
       >
-        <Form form={form} layout="vertical">
-          <Form.Item
+        {/* <Form form={form} layout="vertical"> */}
+          {/* <Form.Item
             name="ColorName"
             label={<p className='font-semibold text-lg'>Color Name</p>}
             rules={[{ required: true, message: 'Please enter color name' }]}
-          >
-            <Input placeholder="Enter color name" />
-          </Form.Item>
-          <Form.Item  
+          > */}
+            <Input className="mb-12" placeholder="Enter color name" value={newColorName}
+              onChange={(e) => setNewColorName(e.target.value)}
+              required />
+          {/* </Form.Item> */}
+          {/* <Form.Item  
             label={<p className='font-semibold text-lg'>Color Code</p>}
             rules={[{ required: true, message: 'Please choose color code' }]}
             required
-            >
+            > */}
             <div className='flex justify-center items-center'>
             <SketchPicker
               color={currentColor}
               onChangeComplete={(color) => setCurrentColor(color.hex)}
+              disableAlpha={true}
             />
             </div>
-          </Form.Item>
-        </Form>
+          {/* </Form.Item> */}
+        {/* </Form> */}
       </Modal>
     </div>
   );
