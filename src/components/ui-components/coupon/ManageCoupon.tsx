@@ -33,9 +33,9 @@ const ManageCoupon: React.FC = () => {
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  // const filteredCoupons = (coupons ?? []).filter((coupon: { name: string; }) =>
-  //   coupon.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
-  // );
+  const filteredCoupons = (coupons ?? []).filter((coupon: { name: string; }) =>
+    coupon.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+  );
 
   console.log("Coupons: ", coupons);
 
@@ -184,7 +184,7 @@ const ManageCoupon: React.FC = () => {
       {isLoading ? (
         <Skeleton active />
       ) : (
-        <Table columns={columns} dataSource={coupons} rowKey="id" loading={isLoading} pagination={{ pageSize: 6 }} className="min-w-full rounded-lg shadow-xl border border-gray-400"
+        <Table columns={columns} dataSource={filteredCoupons} rowKey="id" loading={isLoading} pagination={{ pageSize: 6 }} className="min-w-full rounded-lg shadow-xl border border-gray-400"
         bordered />
       )}
       <Modal

@@ -53,7 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          FurniStore
+          ClotheStore
         </motion.div>}
         <div onClick={handleCollapseClick} className="text-gray-100 bg-indigo-600 h-8 w-8 rounded-lg shadow-xl flex items-center justify-center hover:scale-110 transition duration-500 ease-out">
           <motion.button
@@ -167,7 +167,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
                 </li>
                 <li className="p-2 mb-2 mt-2 left-3 rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-indigo-900">
                   <PackageOpen className="mr-2" />
-                  <Link href="/products/list-products">Products list</Link>
+                  <Link href="/product-list">Products list</Link>
                 </li>
               </ul>
 
@@ -241,7 +241,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
               >
                 <li className="p-2 mb-2 mt-2 left-3 rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-indigo-900">
                   <TicketPercent  className="mr-2" />
-                  <Link href="/pages/manage-event">Coupons</Link>
+                  <Link href="/coupon">Coupons</Link>
                 </li>
               </ul>
             </>

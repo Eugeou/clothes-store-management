@@ -12,7 +12,7 @@ import { Category } from '@/types/entities/category-entity';
 import { Gender } from '@/types/entities/genders-entity';
 
 import { toast } from 'react-toastify';
-import { BookmarkPlus, Eye, Slack, Trash } from 'lucide-react';
+import { BookmarkPlus, Eye, Pen, Slack, Trash } from 'lucide-react';
 
 import envConfig from "@/configs/config";
 import useDebounce from "@/hooks/useDebounce";
@@ -116,8 +116,8 @@ const ManageCategory = () => {
                 <Menu>
                 <Menu.Item onClick={() => showModal('edit', record)}>
                     <div className=' flex flex-row justify-start items-center space-y-0 space-x-3'>
-                    <Eye className="mr-2 font-semibold" width={20} height={20} /> 
-                    <p>View</p>
+                    <Pen className="mr-2 font-semibold" width={20} height={20} /> 
+                    <p>Edit</p>
                     </div>
                 </Menu.Item>
                 <Menu.Item className='mt-2' onClick={() => handleDelete(record.id)}>

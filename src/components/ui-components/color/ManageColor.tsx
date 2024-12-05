@@ -25,9 +25,10 @@ const ManageColor: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const filteredColors = (colors as any).data?.filter((color: { ColorName: string; }) =>
-    color.ColorName.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+  const filteredColors = (colors ?? []).filter((color) =>
+    color.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
   );
+  // console.log("colors", colors);
 
   const handleAddColor = async () => {
     try {
@@ -92,13 +93,13 @@ const ManageColor: React.FC = () => {
 
   const columns = [
     {
-      title: 'Color Code',
-      dataIndex: 'ColorCode',
-      key: 'ColorCode',
-      render: (colorCode: string) => (
+      title: 'Color',
+      dataIndex: 'name',
+      key: 'name',
+      render: (name: string) => (
         <div
           style={{
-            backgroundColor: colorCode,
+            backgroundColor: name,
             width: '30px',
             height: '30px',
             borderRadius: '50%',
@@ -108,8 +109,8 @@ const ManageColor: React.FC = () => {
     },
     {
       title: 'Color Name',
-      dataIndex: 'ColorName',
-      key: 'ColorName',
+      dataIndex: 'name',  
+      key: 'name',
     },
     {
       title: 'Actions',
