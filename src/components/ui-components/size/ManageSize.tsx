@@ -15,8 +15,7 @@ const ManageSize: React.FC = () => {
 
     const { data: sizes , mutate, isLoading } = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + "/size", GetAllSize, { fallbackData: [] });
 
-    //const [sizes, setSizes] = useState<Size[]>([]);
-    //const [loading, setLoading] = useState(true);
+    
     const [newSizeName, setNewSizeName] = useState("");
     const [editSize, setEditSize] = useState<Size | null>(null);
     const [isModalVisible, setIsModalVisible] = useState(false);

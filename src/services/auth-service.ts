@@ -4,30 +4,30 @@ import { StoreLogin, StoreToken } from "@/types/entities/auth-entity";
 import axios from "axios";
 
 // const getAccessToken = () => (typeof window !== "undefined" ? localStorage.getItem("access_token") : null);
-const accessToken = localStorage.getItem("accessToken");
+const accessToken = localStorage.getItem("accessToken")? localStorage.getItem("accessToken") : '';
+
 // const parseToken = accessToken ? ParseJSON(accessToken) : null;
 
-export const loginUser = async (username: string, password: string) => {
+// export const loginUser = async (username: string, password: string) => {
 
-    const envLogin = envConfig.NEXT_PUBLIC_API_ENDPOINT + "/auth/login"
-    //console.log(envLogin)
-    try {
-      const response = await fetch(envLogin, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-      });
-      if (!response.ok) {
-        throw new Error('Tên đăng nhập hoặc mật khẩu không chính xác');
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      throw new Error('Đã xảy ra lỗi khi đăng nhập');
-    }
-};
+//     const envLogin = envConfig.NEXT_PUBLIC_API_ENDPOINT + "/auth/login"
+//     try {
+//       const response = await fetch(envLogin, {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({ username, password })
+//       });
+//       if (!response.ok) {
+//         throw new Error('Tên đăng nhập hoặc mật khẩu không chính xác');
+//       }
+//       const data = await response.json();
+//       return data;
+//     } catch (error) {
+//       throw new Error('Đã xảy ra lỗi khi đăng nhập');
+//     }
+// };
 
 // export const login = async (bodyLogin: StoreLogin) => {
 //     const { data } = await axios.post<{
@@ -93,6 +93,17 @@ export const GetMe = async ()=> {
     }
 }
   
+export const refreshTokenService = async (refreshToken: string): Promise<{ access: string }> => {
+  const { data } = await axios.post<{ access: string }>(
+    envConfig.NEXT_PUBLIC_API_ENDPOINT + '/auth/refreshtoken',
+    { refresh: refreshToken },
+    {
+      baseURL: envConfig.NEXT_PUBLIC_API_ENDPOINT
+    }
+  )
+  return data
+}
+
   
 
   
