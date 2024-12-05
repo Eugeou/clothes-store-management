@@ -183,7 +183,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
               <li className="p-4 mb-2 rounded-lg hover:bg-indigo-500 group hover:text-white font-semibold flex items-center justify-between transition duration-500 ease-out focus:outline-none active:bg-indigo-900" onClick={() => handleDropdownClick('invoices')}>
               <div className="flex items-center cursor-pointer">
                 <Import className="mr-2" />
-                {!isCollapsed && 'Import'}
+                {!isCollapsed && 'Invoices'}
               </div>
               {!isCollapsed && (
                 <div className={`transform transition-transform duration-300 ${openDropdown === 'invoices' ? 'rotate-180' : 'rotate-0'}`}>
@@ -200,12 +200,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, setIsCollapsed }) => {
             >
               <li className=" p-2 mb-2 mt-2 left-3 rounded-lg hover:bg-indigo-600 hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-amber-800">
                 <ScrollText className="mr-2 rounded-md" />
-                <Link href="/pages/imports/list-imports">List invoices</Link>
+                <Link href="/list-invoice">List invoices</Link>
               </li>
               
               <li className=" p-2  rounded-lg hover:bg-indigo-600 group hover:text-white font-semibold flex items-center transition duration-500 ease-out focus:outline-none active:bg-slate-900">
                 <Blocks className="mr-2" />
-                <Link href="/pages/imports/add-import">Import products</Link>
+                <Link href="/import-product">Import products</Link>
               </li>
             </ul>
             </>
