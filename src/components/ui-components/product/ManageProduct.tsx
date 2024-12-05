@@ -16,7 +16,7 @@ import { BookmarkPlus, Search } from 'lucide-react';
 
 const ManageProduct: React.FC = () => {
 
-    const { data: products, mutate, isLoading } = useSWR(envConfig.NEXT_PUBLIC_API_ENDPOINT + "/products", GetAllProducts);
+    const { data: products, mutate, isLoading } = useSWR<Product[]>(envConfig.NEXT_PUBLIC_API_ENDPOINT + "/products", GetAllProducts);
 
     const [productItems, setProductItems] = useState<ProductItem[]>([]);
     const [visible, setVisible] = useState(false);
@@ -26,7 +26,7 @@ const ManageProduct: React.FC = () => {
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
     const router = useRouter();
 
-    const filteredProducts = (products as any)?.data.filter((product: { product_Name: string; }) => {
+    const filteredProducts = (products || [])?.filter((product: { product_Name: string; }) => {
         return product.product_Name.toLowerCase().includes(debouncedSearchTerm.toLowerCase());
     });
 

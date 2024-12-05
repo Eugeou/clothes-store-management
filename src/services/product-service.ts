@@ -15,7 +15,7 @@ export const DeleteProduct = async (productId: string) => {
     return await axiosClient.delete(envConfig.NEXT_PUBLIC_API_ENDPOINT + `/products/${productId}`);
 }
 
-export const GetAllProducts = async (): Promise<AxiosResponse<Product[]>> => {
+export const GetAllProducts = async (): Promise<Product[]> => {
     
     try {
         const config = {
@@ -27,8 +27,8 @@ export const GetAllProducts = async (): Promise<AxiosResponse<Product[]>> => {
             }
           };
         
-          const response: AxiosResponse<Product[]> = await axios.request(config);
-          return response;
+          const response = await axios.request(config);
+          return response.data;
     } catch (error) {
         console.error(error);
         throw new Error('Get all products failed');
