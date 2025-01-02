@@ -1,23 +1,11 @@
-import axios from 'axios';
-import envConfig from '@/configs/config';
+import axiosClient from "@/lib/axios";
 
-const accessToken = localStorage.getItem('accessToken') || '';
-const UsersUrl = envConfig.NEXT_PUBLIC_API_ENDPOINT + '/users';
-
-export const GetUserById = async (id: string) => {
-    
-        const config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: UsersUrl + `/${id}`,
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-            }
-        };
-        try {
-            const response = await axios.request(config);
-            return response.data;
-        } catch (error) {
-            console.error(error);
-        }
+export const ChangeAvatar = async (userId: string, file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    return await axiosClient.post(`/user/avatar/${userId}`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
 }
